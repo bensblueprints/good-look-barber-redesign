@@ -27,7 +27,8 @@ export default function Navigation({ shopName, phone, address }: NavigationProps
   const navLinks = [
     { href: '/', label: 'Home' },
     { href: '#services', label: 'Services' },
-    { href: '#about', label: 'About' },
+    { href: '#gallery', label: 'Gallery' },
+    { href: '#reviews', label: 'Reviews' },
     { href: '#contact', label: 'Contact' },
     { href: '/book', label: 'Book Now', isButton: true },
   ]

@@ -5,6 +5,8 @@ import { getShop, getShopHours, getServices, type Shop, type ShopHours, type Ser
 import Navigation from '@/components/Navigation'
 import Hero from '@/components/Hero'
 import Services from '@/components/Services'
+import Gallery from '@/components/Gallery'
+import Reviews from '@/components/Reviews'
 import About from '@/components/About'
 import Hours from '@/components/Hours'
 import Contact from '@/components/Contact'
@@ -83,6 +85,8 @@ export default function Home() {
         heroUrl="/hero.jpg"
       />
       <Services services={services} />
+      <Gallery />
+      <Reviews />
       <About shopName={shop.name} />
       <Hours hours={hours} phone={shop.phone} />
       <Contact shop={shop} />
