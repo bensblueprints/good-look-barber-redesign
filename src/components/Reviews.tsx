@@ -31,81 +31,178 @@ const reviews = [
 ]
 
 export default function Reviews() {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: { staggerChildren: 0.15 }
+    }
+  }
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.6 } }
+  }
+
   return (
-    <section id="reviews" className="py-20 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="reviews" className="py-24 bg-[var(--cream)] relative overflow-hidden">
+      {/* Decorative Background */}
+      <div className="absolute top-1/4 -right-20 w-80 h-80 border border-[var(--gold)]/10 rounded-full" />
+      <div className="absolute bottom-1/4 -left-20 w-60 h-60 border border-[var(--gold)]/10 rounded-full" />
+
+      {/* Top Border */}
+      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[var(--gold)]/30 to-transparent" />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-12"
+          className="text-center mb-16"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-[#161616] mb-4">
-            What Our Clients Say
-          </h2>
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <div className="flex">
+          <motion.span
+            className="text-[var(--gold)] font-[var(--font-elegant)] tracking-[0.3em] uppercase text-sm"
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+          >
+            Testimonials
+          </motion.span>
+
+          <motion.h2
+            className="font-[var(--font-display)] text-4xl md:text-5xl lg:text-6xl text-[var(--charcoal)] mt-4 mb-6"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+          >
+            Client <span className="text-gold-gradient">Experiences</span>
+          </motion.h2>
+
+          {/* Elegant Divider */}
+          <motion.div
+            initial={{ width: 0 }}
+            whileInView={{ width: 60 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="h-px bg-gradient-to-r from-transparent via-[var(--gold)] to-transparent mx-auto mb-6"
+          />
+
+          {/* Rating Summary */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.4 }}
+            className="flex flex-col items-center gap-3"
+          >
+            <div className="flex items-center gap-1">
               {[...Array(5)].map((_, i) => (
-                <Star key={i} size={24} className="fill-yellow-400 text-yellow-400" />
+                <Star
+                  key={i}
+                  size={20}
+                  className={`${i < 4 ? 'fill-[var(--gold)] text-[var(--gold)]' : 'fill-[var(--gold)]/60 text-[var(--gold)]/60'}`}
+                />
               ))}
+              <span className="ml-2 font-[var(--font-display)] text-2xl text-[var(--charcoal)]">4.6</span>
             </div>
-            <span className="text-lg font-semibold text-[#161616]">4.6</span>
-            <span className="text-gray-500">from 316+ reviews</span>
-          </div>
-          <p className="text-gray-600 max-w-2xl mx-auto">
-            Serving the Marietta community since 2008 with professional grooming services.
-          </p>
+            <p className="text-[var(--charcoal)]/50 text-sm tracking-wider">
+              FROM 316+ VERIFIED REVIEWS
+            </p>
+            <p className="font-[var(--font-elegant)] text-[var(--charcoal)]/70 max-w-xl mx-auto text-lg italic mt-2">
+              Serving the Marietta community with excellence since 2008
+            </p>
+          </motion.div>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-6">
+        {/* Reviews Grid */}
+        <motion.div
+          className="grid md:grid-cols-2 gap-8"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true }}
+        >
           {reviews.map((review, index) => (
             <motion.div
               key={review.name}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className="bg-gray-50 rounded-2xl p-6 relative"
+              variants={itemVariants}
+              whileHover={{ y: -4 }}
+              transition={{ type: "spring", stiffness: 300, damping: 20 }}
+              className="group relative bg-white p-8 border border-[var(--charcoal)]/5 hover:border-[var(--gold)]/30 transition-all duration-500"
             >
-              <Quote className="absolute top-6 right-6 text-[#02537E]/10 w-12 h-12" />
-              <div className="flex gap-1 mb-4">
+              {/* Quote Icon */}
+              <Quote className="absolute top-8 right-8 w-12 h-12 text-[var(--gold)]/10 group-hover:text-[var(--gold)]/20 transition-colors duration-500" />
+
+              {/* Top Gold Line */}
+              <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-[var(--gold)] to-transparent transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
+
+              {/* Stars */}
+              <div className="flex gap-1 mb-6">
                 {[...Array(review.rating)].map((_, i) => (
-                  <Star key={i} size={18} className="fill-yellow-400 text-yellow-400" />
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, scale: 0 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.5 + i * 0.1, type: "spring", stiffness: 300 }}
+                  >
+                    <Star size={16} className="fill-[var(--gold)] text-[var(--gold)]" />
+                  </motion.div>
                 ))}
               </div>
-              <p className="text-gray-700 mb-4 relative z-10">
+
+              {/* Review Text */}
+              <p className="font-[var(--font-elegant)] text-[var(--charcoal)]/80 text-lg leading-relaxed mb-8 italic">
                 &ldquo;{review.text}&rdquo;
               </p>
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="font-semibold text-[#161616]">{review.name}</p>
-                  <p className="text-sm text-gray-500">{review.date}</p>
+
+              {/* Author */}
+              <div className="flex items-center justify-between pt-6 border-t border-[var(--charcoal)]/5">
+                <div className="flex items-center gap-4">
+                  {/* Avatar */}
+                  <div className="w-12 h-12 bg-[var(--charcoal)] flex items-center justify-center text-[var(--gold)] font-[var(--font-display)] text-lg">
+                    {review.name.charAt(0)}
+                  </div>
+                  <div>
+                    <p className="font-[var(--font-body)] font-semibold text-[var(--charcoal)]">
+                      {review.name}
+                    </p>
+                    <p className="text-[var(--charcoal)]/40 text-sm">
+                      Verified Client
+                    </p>
+                  </div>
                 </div>
-                <div className="w-10 h-10 bg-[#02537E] rounded-full flex items-center justify-center text-white font-bold">
-                  {review.name.charAt(0)}
-                </div>
+                <span className="text-[var(--charcoal)]/30 text-sm">
+                  {review.date}
+                </span>
               </div>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
 
+        {/* CTA Link */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mt-12 text-center"
+          className="mt-16 text-center"
         >
-          <a
+          <motion.a
             href="https://www.yelp.com/biz/good-look-barber-shop-marietta"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-[#02537E] hover:text-[#023c5c] font-semibold transition-colors"
+            className="inline-flex items-center gap-3 text-[var(--charcoal)]/60 hover:text-[var(--gold)] font-[var(--font-body)] tracking-wider uppercase text-sm transition-colors duration-300 group"
+            whileHover={{ x: 5 }}
+            transition={{ type: "spring", stiffness: 300 }}
           >
-            See all reviews on Yelp
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+            <span>Read All Reviews on Yelp</span>
+            <svg className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>
-          </a>
+          </motion.a>
         </motion.div>
       </div>
     </section>

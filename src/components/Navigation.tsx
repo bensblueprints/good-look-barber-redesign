@@ -36,41 +36,50 @@ export default function Navigation({ shopName, phone, address }: NavigationProps
   return (
     <>
       {/* Top Bar */}
-      <div className="bg-[#02537E] text-white py-2 px-4 text-sm hidden md:block">
+      <div className="bg-[var(--charcoal)] text-[var(--cream)]/80 py-2.5 px-4 text-sm hidden md:block border-b border-[var(--gold)]/10">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <div className="flex items-center gap-6">
-            <a href={`tel:${phone.replace(/[^0-9]/g, '')}`} className="flex items-center gap-2 hover:text-white/80 transition-colors">
-              <Phone size={14} />
-              <span>{phone}</span>
+          <div className="flex items-center gap-8">
+            <a
+              href={`tel:${phone.replace(/[^0-9]/g, '')}`}
+              className="flex items-center gap-2 hover:text-[var(--gold)] transition-colors duration-300"
+            >
+              <Phone size={14} className="text-[var(--gold)]" />
+              <span className="tracking-wider">{phone}</span>
             </a>
             <span className="flex items-center gap-2">
-              <MapPin size={14} />
-              <span>{address}</span>
+              <MapPin size={14} className="text-[var(--gold)]" />
+              <span className="tracking-wider">{address}</span>
             </span>
           </div>
           <div className="flex items-center gap-2">
-            <Clock size={14} />
-            <span>Tue-Sat: 10AM - 6PM</span>
+            <Clock size={14} className="text-[var(--gold)]" />
+            <span className="tracking-wider">Tue-Sat: 10AM - 6PM</span>
           </div>
         </div>
       </div>
 
       {/* Main Navigation */}
       <motion.nav
-        className={`sticky top-0 z-50 transition-all duration-300 ${
-          scrolled ? 'bg-[#161616]/95 backdrop-blur-md shadow-lg' : 'bg-[#161616]'
+        className={`sticky top-0 z-50 transition-all duration-500 ${
+          scrolled
+            ? 'bg-[var(--charcoal-dark)]/98 backdrop-blur-md shadow-lg shadow-black/10'
+            : 'bg-[var(--charcoal-dark)]'
         }`}
         initial={{ y: -100 }}
         animate={{ y: 0 }}
-        transition={{ duration: 0.5, ease: 'easeOut' }}
+        transition={{ duration: 0.6, ease: 'easeOut' }}
       >
+        {/* Gold accent line */}
+        <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[var(--gold)]/30 to-transparent" />
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
             {/* Logo */}
             <Link href="/" className="flex items-center">
               <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                transition={{ type: "spring", stiffness: 400, damping: 17 }}
               >
                 <Image
                   src="/logo.png"
@@ -84,14 +93,16 @@ export default function Navigation({ shopName, phone, address }: NavigationProps
             </Link>
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center gap-8">
+            <div className="hidden md:flex items-center gap-10">
               {navLinks.map((link) => (
                 link.isButton ? (
-                  <motion.div key={link.href} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                    <Link
-                      href={link.href}
-                      className="bg-[#02537E] text-white px-6 py-3 rounded-md font-semibold hover:bg-[#02537E]/90 transition-colors"
-                    >
+                  <motion.div
+                    key={link.href}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                  >
+                    <Link href={link.href} className="btn-luxury">
                       {link.label}
                     </Link>
                   </motion.div>
@@ -103,10 +114,10 @@ export default function Navigation({ shopName, phone, address }: NavigationProps
                   >
                     <Link
                       href={link.href}
-                      className="text-white/90 hover:text-white font-medium transition-colors relative group"
+                      className="text-[var(--cream)]/80 hover:text-[var(--gold)] font-[var(--font-body)] text-sm tracking-[0.1em] uppercase transition-colors duration-300 relative group"
                     >
                       {link.label}
-                      <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#02537E] transition-all group-hover:w-full" />
+                      <span className="absolute -bottom-1 left-0 w-0 h-px bg-[var(--gold)] transition-all duration-300 group-hover:w-full" />
                     </Link>
                   </motion.div>
                 )
@@ -115,7 +126,7 @@ export default function Navigation({ shopName, phone, address }: NavigationProps
 
             {/* Mobile Menu Button */}
             <motion.button
-              className="md:hidden text-white p-2"
+              className="md:hidden text-[var(--cream)] p-2"
               onClick={() => setIsOpen(!isOpen)}
               whileTap={{ scale: 0.9 }}
             >
@@ -128,13 +139,13 @@ export default function Navigation({ shopName, phone, address }: NavigationProps
         <AnimatePresence>
           {isOpen && (
             <motion.div
-              className="md:hidden bg-[#161616] border-t border-white/10"
+              className="md:hidden bg-[var(--charcoal-dark)] border-t border-[var(--gold)]/10"
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
               transition={{ duration: 0.3 }}
             >
-              <div className="px-4 py-6 space-y-4">
+              <div className="px-4 py-8 space-y-2">
                 {navLinks.map((link, index) => (
                   <motion.div
                     key={link.href}
@@ -145,10 +156,10 @@ export default function Navigation({ shopName, phone, address }: NavigationProps
                     <Link
                       href={link.href}
                       onClick={() => setIsOpen(false)}
-                      className={`block py-3 text-lg ${
+                      className={`block py-4 text-lg tracking-wider ${
                         link.isButton
-                          ? 'bg-[#02537E] text-white text-center rounded-md font-semibold'
-                          : 'text-white/90 hover:text-white border-b border-white/10'
+                          ? 'btn-luxury text-center mt-4'
+                          : 'text-[var(--cream)]/80 hover:text-[var(--gold)] border-b border-[var(--gold)]/10 font-[var(--font-body)]'
                       }`}
                     >
                       {link.label}
@@ -157,14 +168,21 @@ export default function Navigation({ shopName, phone, address }: NavigationProps
                 ))}
 
                 {/* Mobile Contact Info */}
-                <div className="pt-4 space-y-3 text-white/70">
-                  <a href={`tel:${phone.replace(/[^0-9]/g, '')}`} className="flex items-center gap-3">
-                    <Phone size={18} />
-                    <span>{phone}</span>
+                <div className="pt-6 mt-4 border-t border-[var(--gold)]/10 space-y-4 text-[var(--cream)]/60">
+                  <a
+                    href={`tel:${phone.replace(/[^0-9]/g, '')}`}
+                    className="flex items-center gap-3 hover:text-[var(--gold)] transition-colors"
+                  >
+                    <Phone size={18} className="text-[var(--gold)]" />
+                    <span className="tracking-wider">{phone}</span>
                   </a>
                   <div className="flex items-center gap-3">
-                    <MapPin size={18} />
-                    <span>{address}</span>
+                    <MapPin size={18} className="text-[var(--gold)]" />
+                    <span className="tracking-wider">{address}</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <Clock size={18} className="text-[var(--gold)]" />
+                    <span className="tracking-wider">Tue-Sat: 10AM - 6PM</span>
                   </div>
                 </div>
               </div>
